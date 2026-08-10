@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>KUROHANA KOFFEE | Menu</title>
+<style>
+:root{--cream:#fbf4e9;--paper:#fffaf3;--brown:#3a210f;--gold:#9a6935;--muted:#806f61;--line:#eadbc8}
+*{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--cream);color:var(--brown);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+.hero{padding:24px 20px 16px;text-align:center;background:linear-gradient(180deg,#fffaf4,var(--cream));border-bottom:1px solid var(--line)}
+.logo{width:min(330px,82vw);height:180px;object-fit:contain;display:block;margin:auto}
+.kicker{font-size:12px;letter-spacing:.24em;color:var(--gold);text-transform:uppercase;margin-top:-8px}
+.sticky{position:sticky;top:0;z-index:5;background:rgba(251,244,233,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.tabs{display:flex;gap:8px;overflow:auto;padding:12px 14px;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
+.tabs a{white-space:nowrap;text-decoration:none;color:var(--brown);padding:10px 15px;border:1px solid var(--line);border-radius:999px;background:#fff8ef;font-weight:650;font-size:14px}
+.tabs a:active{transform:scale(.98)}
+main{max-width:760px;margin:auto;padding:10px 16px 50px}
+section{scroll-margin-top:75px;padding-top:18px}
+h2{font-family:Georgia,serif;font-size:27px;font-weight:500;margin:10px 2px 6px}
+.rule{height:1px;background:linear-gradient(90deg,var(--gold),transparent);margin-bottom:5px}
+.item{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;padding:20px 4px;border-bottom:1px solid var(--line);min-height:102px}
+.name{font-family:Georgia,serif;font-size:20px;font-weight:600;line-height:1.25}.desc{font-size:14px;color:var(--muted);line-height:1.45;margin-top:6px;max-width:440px}
+.price{font-family:Georgia,serif;font-size:19px;white-space:nowrap;padding:8px 10px;border-radius:12px;background:#f3e5d3}
+footer{text-align:center;padding:28px 16px 40px;color:var(--muted);font-size:13px}
+@media(min-width:700px){.hero{padding-top:34px}.logo{height:220px}.item{padding:22px 10px}.tabs{justify-content:center}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <img class="logo" src="kurohana-logo.png" alt="KUROHANA KOFFEE">
+  <div class="kicker">Digital Menu</div>
+</header>
+<nav class="sticky"><div class="tabs">
+  <a href="#iced">Iced Drinks</a><a href="#coffee">Coffee</a><a href="#beans">Coffee Beans</a>
+</div></nav>
+<main>
+<section id="iced"><h2>Iced Drinks</h2><div class="rule"></div>
+<div class="item"><div class="name">Cold Summer</div><div class="price">AED 22</div></div>
+<div class="item"><div class="name">Berry Boom</div><div class="price">AED 18</div></div>
+<div class="item"><div class="name">Hibiscus</div><div class="price">AED 18</div></div>
+<div class="item"><div><div class="name">Sakura Bloom</div><div class="desc">Summer flavor</div></div><div class="price">AED 18</div></div>
+<div class="item"><div class="name">Açaí Smoothie</div><div class="price">AED 35</div></div>
+</section>
+<section id="coffee"><h2>Coffee</h2><div class="rule"></div>
+<div class="item"><div class="name">Espresso Shot</div><div class="price">AED 23</div></div>
+<div class="item"><div class="name">Cold Brew</div><div class="price">AED 27</div></div>
+<div class="item"><div class="name">Milk Brew</div><div class="price">AED 25</div></div>
+<div class="item"><div class="name">Salted Caramel Latte</div><div class="price">AED 25</div></div>
+<div class="item"><div class="name">Dulce De Leche Cold Brew</div><div class="price">AED 32</div></div>
+</section>
+<section id="beans"><h2>Coffee Beans</h2><div class="rule"></div>
+<div class="item"><div><div class="name">Ethiopia Coffee (Sidamo) 250g</div><div class="desc">Tasting notes: fruity, chocolate, dried apricot</div></div><div class="price">AED 40</div></div>
+<div class="item"><div><div class="name">Indonesia Coffee (Tobacco) 250g</div><div class="desc">Tasting notes: tobacco, red fruits, hints of jack fruit, medium body</div></div><div class="price">AED 75</div></div>
+</section>
+</main>
+<footer>KUROHANA KOFFEE · Digital Menu</footer>
+</body></html>
