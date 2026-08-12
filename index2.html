@@ -379,6 +379,34 @@ button,a{touch-action:manipulation}
   touch-action:manipulation;
 }
 
+
+/* ===== Back-to-Top: iPhone first-tap reliability ===== */
+.backtop{
+  bottom:calc(20px + env(safe-area-inset-bottom)) !important;
+}
+@supports (-webkit-touch-callout:none){
+  .backtop{
+    bottom:calc(92px + env(safe-area-inset-bottom)) !important;
+  }
+}
+
+
+/* ===== Back-to-Top first-tap fix without moving the visible arrow ===== */
+.backtop{
+  position:fixed;
+  overflow:visible;
+}
+.backtop::before{
+  content:"";
+  position:absolute;
+  left:-14px;
+  right:-14px;
+  top:-52px;
+  bottom:-10px;
+  border-radius:28px;
+  background:transparent;
+}
+
 </style>
 
 </head>
@@ -562,24 +590,19 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 
 if(backTop){
-  let backTopTouchHandled=false;
-
-  function goTop(){
+  function goTopImmediately(e){
+    if(e && e.cancelable) e.preventDefault();
     history.replaceState(null,'',location.pathname + location.search);
-    window.scrollTo({top:0,behavior:'smooth'});
+    document.documentElement.scrollTop=0;
+    document.body.scrollTop=0;
+    window.scrollTo(0,0);
   }
 
-  backTop.addEventListener('touchend',(e)=>{
-    backTopTouchHandled=true;
-    if(e.cancelable) e.preventDefault();
-    goTop();
-    setTimeout(()=>{backTopTouchHandled=false},450);
-  },{passive:false});
-
-  backTop.addEventListener('click',()=>{
-    if(backTopTouchHandled) return;
-    goTop();
+  backTop.addEventListener('touchstart',goTopImmediately,{passive:false});
+  backTop.addEventListener('pointerdown',(e)=>{
+    if(e.pointerType!=='touch') goTopImmediately(e);
   });
+  backTop.addEventListener('click',goTopImmediately);
 }
 
 if(shareBtn){
