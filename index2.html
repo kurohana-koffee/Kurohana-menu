@@ -361,6 +361,24 @@ button,a{touch-action:manipulation}
   }
 }
 
+
+/* ===== Compact iOS footer + reliable Back to Top ===== */
+.footer{
+  padding-bottom:calc(82px + env(safe-area-inset-bottom)) !important;
+}
+@supports (-webkit-touch-callout:none){
+  .footer{
+    padding-bottom:calc(96px + env(safe-area-inset-bottom)) !important;
+  }
+}
+.backtop{
+  bottom:calc(18px + env(safe-area-inset-bottom));
+  z-index:60;
+  -webkit-tap-highlight-color:transparent;
+  -webkit-touch-callout:none;
+  touch-action:manipulation;
+}
+
 </style>
 
 </head>
@@ -545,10 +563,25 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 
 if(backTop){
-  backTop.addEventListener('click',()=>{
+  let backTopTouchHandled=false;
+
+  function goTop(){
     history.replaceState(null,'',location.pathname + location.search);
     window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  backTop.addEventListener('touchend',(e)=>{
+    backTopTouchHandled=true;
+    if(e.cancelable) e.preventDefault();
+    goTop();
+    setTimeout(()=>{backTopTouchHandled=false},450);
+  },{passive:false});
+
+  backTop.addEventListener('click',()=>{
+    if(backTopTouchHandled) return;
+    goTop();
   });
+});
 }
 
 if(shareBtn){
