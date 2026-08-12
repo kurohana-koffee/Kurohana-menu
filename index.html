@@ -2,74 +2,525 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=yes">
-<meta name="theme-color" content="#f7f1e8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f6efe5">
 <title>KUROHANA KOFFEE | Menu</title>
+
 <style>
-:root{--bg:#f7f1e8;--paper:#fffaf4;--ink:#311c10;--muted:#8a7665;--gold:#b28a52;--line:#e8dccd;--pill:#efe1cf}
+:root{
+  --bg:#f3eadf;
+  --paper:#fffaf5;
+  --ink:#2a170d;
+  --muted:#8a7767;
+  --gold:#b7894f;
+  --gold-soft:#e8d7be;
+  --line:#e5d7c7;
+  --espresso:#3a2113;
+}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
-.hero{padding:18px 16px 14px;text-align:center;background:linear-gradient(180deg,#fffaf4 0%,var(--bg) 100%)}
-.logo{width:min(320px,80vw);height:150px;object-fit:contain;display:block;margin:0 auto}
-.est{margin-top:-4px;font-size:11px;font-weight:700;letter-spacing:.24em;color:var(--gold)}
-.nav{position:sticky;top:0;z-index:50;background:rgba(247,241,232,.96);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.tabs{display:flex;gap:8px;overflow-x:auto;padding:10px 12px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-.tabs::-webkit-scrollbar{display:none}
-.tabs a{flex:0 0 auto;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:10px 15px;min-height:42px;display:flex;align-items:center;font-size:14px;font-weight:700;-webkit-tap-highlight-color:transparent}
-main{width:min(760px,100%);margin:0 auto;padding:8px 16px 48px}
-section{scroll-margin-top:70px;padding-top:20px}
-.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin:6px 0 8px}
-h2{margin:0;font-family:Georgia,"Times New Roman",serif;font-size:29px;font-weight:500;line-height:1.1}
-.section-count{color:var(--muted);font-size:12px}
-.rule{height:1px;background:linear-gradient(90deg,var(--gold),rgba(178,138,82,0))}
-.item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;padding:18px 2px;border-bottom:1px solid var(--line)}
-.name{font-family:Georgia,"Times New Roman",serif;font-size:19px;line-height:1.3;font-weight:600;overflow-wrap:anywhere}
-.desc{margin-top:5px;color:var(--muted);font-size:13px;line-height:1.45}
-.price{white-space:nowrap;background:var(--pill);border:1px solid #e3cfb6;border-radius:12px;padding:8px 10px;font-family:Georgia,"Times New Roman",serif;font-size:17px;font-weight:700;min-width:72px;text-align:center}
-footer{text-align:center;color:var(--muted);padding:0 16px 36px;font-size:11px;letter-spacing:.12em}
-@media (max-width:380px){main{padding-left:13px;padding-right:13px}.logo{height:135px}h2{font-size:26px}.name{font-size:18px}.item{gap:10px;padding:16px 1px}.price{font-size:16px;padding:7px 9px;min-width:68px}}
-@media (min-width:700px){.hero{padding-top:26px}.logo{height:185px}.tabs{justify-content:center}main{padding-left:24px;padding-right:24px}.item{padding:20px 6px}.name{font-size:20px}}
-@supports (padding:max(0px)){.hero{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}main{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}}
+body{
+  margin:0;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 50% -10%,rgba(183,137,79,.16),transparent 30%),
+    linear-gradient(180deg,#fbf7f1 0%,var(--bg) 38%,#efe4d7 100%);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.progress{
+  position:fixed;left:0;top:0;z-index:100;
+  width:0;height:2px;background:var(--gold);
+}
+.header{
+  position:relative;
+  text-align:center;
+  padding:24px 18px 18px;
+}
+.header:before{
+  content:"";
+  position:absolute;
+  width:150px;height:150px;
+  border:1px solid rgba(183,137,79,.14);
+  border-radius:50%;
+  left:50%;top:10px;transform:translateX(-50%);
+}
+.logo{
+  position:relative;
+  z-index:1;
+  width:min(290px,76vw);
+  height:138px;
+  object-fit:contain;
+  display:block;
+  margin:auto;
+}
+.brandline{
+  margin-top:-2px;
+  color:var(--gold);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.28em;
+}
+.tagline{
+  margin:8px 0 0;
+  color:var(--muted);
+  font:italic 14px/1.25 Georgia,"Times New Roman",serif;
+}
+.nav-shell{
+  position:sticky;top:0;z-index:40;
+  padding:8px 10px;
+  background:rgba(243,234,223,.94);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-top:1px solid rgba(183,137,79,.12);
+  border-bottom:1px solid rgba(183,137,79,.16);
+}
+.nav{
+  display:flex;gap:8px;overflow-x:auto;
+  max-width:780px;margin:auto;
+  -webkit-overflow-scrolling:touch;scrollbar-width:none;
+}
+.nav::-webkit-scrollbar{display:none}
+.nav a{
+  flex:0 0 auto;
+  text-decoration:none;
+  color:var(--ink);
+  background:rgba(255,250,245,.75);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:10px 14px;
+  min-height:42px;
+  display:flex;align-items:center;
+  font-size:13px;font-weight:800;
+  transition:.16s ease;
+}
+.nav a.active{
+  background:var(--espresso);
+  color:#fff;
+  border-color:var(--espresso);
+}
+main{
+  width:min(780px,100%);
+  margin:auto;
+  padding:12px 16px 52px;
+}
+.section{
+  scroll-margin-top:70px;
+  padding-top:26px;
+}
+.section-headline{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:10px;
+}
+.section-copy{min-width:0}
+.eyebrow{
+  color:var(--gold);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  margin-bottom:5px;
+}
+h2{
+  margin:0;
+  font:500 31px/1 Georgia,"Times New Roman",serif;
+}
+.section-sub{
+  margin:7px 0 0;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.45;
+}
+.section-index{
+  flex:0 0 auto;
+  width:44px;height:44px;
+  border-radius:50%;
+  border:1px solid var(--gold-soft);
+  display:grid;place-items:center;
+  color:var(--gold);
+  font:600 15px/1 Georgia,"Times New Roman",serif;
+  background:rgba(255,250,245,.7);
+}
+.menu-card{
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:22px;
+  background:rgba(255,250,245,.86);
+  box-shadow:0 12px 36px rgba(55,31,15,.05);
+}
+.item{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:16px;
+  align-items:center;
+  padding:18px 18px;
+  border-bottom:1px solid rgba(229,215,199,.92);
+}
+.item:last-child{border-bottom:0}
+.name{
+  font:600 18px/1.28 Georgia,"Times New Roman",serif;
+}
+.meta{
+  margin-top:5px;
+  color:var(--muted);
+  font-size:12.5px;
+  line-height:1.45;
+}
+.price{
+  white-space:nowrap;
+  font:700 16px/1 Georgia,"Times New Roman",serif;
+  color:var(--espresso);
+}
+.price span{
+  display:inline-block;
+  min-width:76px;
+  text-align:center;
+  padding:8px 10px;
+  border-radius:10px;
+  border:1px solid var(--gold-soft);
+  background:linear-gradient(180deg,#f7ecdf,#f0e0cd);
+}
+.v60 .menu-card{
+  border-color:rgba(183,137,79,.42);
+  background:
+    radial-gradient(circle at 100% 0,rgba(183,137,79,.10),transparent 26%),
+    linear-gradient(180deg,#fffaf5,#f7ecdf);
+}
+.v60 .eyebrow{color:#946b39}
+.beans .menu-card{
+  background:linear-gradient(180deg,#fffaf5,#f5eadf);
+}
+.noon-card{
+  margin:32px 0 0;
+  padding:24px 18px;
+  text-align:center;
+  border-radius:24px;
+  border:1px solid rgba(183,137,79,.36);
+  background:
+    linear-gradient(135deg,rgba(255,250,245,.97),rgba(242,229,211,.96));
+  box-shadow:0 14px 34px rgba(55,31,15,.06);
+}
+.noon-kicker{
+  color:var(--gold);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.18em;
+}
+.noon-card h3{
+  margin:6px 0 0;
+  font:500 28px/1 Georgia,"Times New Roman",serif;
+}
+.noon-card p{
+  margin:8px auto 16px;
+  max-width:430px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.5;
+}
+.noon-qr-wrap{
+  width:172px;height:172px;
+  margin:0 auto 14px;
+  padding:10px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+}
+.noon-qr-wrap img{
+  width:100%;height:100%;object-fit:contain;display:block;image-rendering:pixelated;
+}
+.noon-order-btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:44px;
+  padding:10px 18px;
+  border-radius:12px;
+  text-decoration:none;
+  color:#fff;
+  background:var(--espresso);
+  font-size:13px;font-weight:800;
+}
+.footer{
+  text-align:center;
+  padding:22px 16px 36px;
+  color:var(--muted);
+}
+.footer .rule{
+  width:54px;height:1px;background:var(--gold);margin:0 auto 14px;
+}
+.footer strong{
+  display:block;
+  color:var(--ink);
+  font:500 14px/1.3 Georgia,"Times New Roman",serif;
+}
+.footer small{
+  display:block;margin-top:6px;
+  font-size:10px;letter-spacing:.13em;
+}
+.socials{
+  display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:14px;
+}
+.socials a,.share-btn{
+  text-decoration:none;color:var(--ink);
+  border:1px solid var(--line);
+  background:rgba(255,250,245,.78);
+  border-radius:10px;
+  padding:9px 11px;
+  font-size:12px;font-weight:700;
+}
+.share-btn{cursor:pointer}
+.backtop{
+  position:fixed;right:16px;bottom:18px;z-index:45;
+  width:44px;height:44px;border-radius:50%;
+  border:1px solid var(--line);
+  background:rgba(255,250,245,.96);
+  color:var(--ink);
+  display:grid;place-items:center;
+  box-shadow:0 10px 24px rgba(55,31,15,.11);
+  opacity:0;pointer-events:none;transform:translateY(8px);
+  transition:.2s ease;
+}
+.backtop.show{opacity:1;pointer-events:auto;transform:none}
+body.compact .header{padding-top:9px;padding-bottom:8px}
+body.compact .logo{height:88px}
+body.compact .brandline,body.compact .tagline{
+  opacity:0;height:0;margin:0;overflow:hidden;pointer-events:none;
+}
+.header,.logo,.brandline,.tagline{transition:.2s ease}
+button,a{touch-action:manipulation}
+@media(max-width:430px){
+  .header{padding-top:18px}
+  .logo{height:126px}
+  main{padding-left:12px;padding-right:12px}
+  h2{font-size:27px}
+  .section-index{width:40px;height:40px}
+  .item{padding:16px 14px;gap:10px}
+  .name{font-size:17px}
+  .price span{min-width:70px;padding:7px 8px}
+  .noon-card{padding:20px 14px}
+  .noon-qr-wrap{width:160px;height:160px}
+}
+@media(min-width:700px){
+  .logo{height:170px}
+  .item{padding:20px 22px}
+  .name{font-size:19px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}
+}
+@supports(padding:max(0px)){
+  main{
+    padding-left:max(16px,env(safe-area-inset-left));
+    padding-right:max(16px,env(safe-area-inset-right));
+  }
+}
 </style>
+
 </head>
 <body>
-<header class="hero">
+<div class="progress" id="progress"></div>
+<header class="header">
   <img class="logo" src="kurohana-logo.png" alt="KUROHANA KOFFEE">
-  <div class="est">DIGITAL MENU · EST. 2026</div>
+  <div class="brandline">DIGITAL MENU · EST. 2026</div>
+  <p class="tagline">Good coffee, good mood.</p>
 </header>
-<nav class="nav"><div class="tabs">
-  <a href="#iced">Iced Drinks</a><a href="#coffee">Coffee</a><a href="#v60">V60</a><a href="#beans">Coffee Beans</a>
-</div></nav>
+
+<div class="nav-shell">
+  <nav class="nav" aria-label="Menu sections">
+    <a href="#iced">Iced Drinks</a>
+    <a href="#coffee">Coffee</a>
+    <a href="#v60">V60</a>
+    <a href="#beans">Coffee Beans</a>
+  </nav>
+</div>
+
 <main>
-<section id="iced"><div class="section-head"><h2>Iced Drinks</h2><span class="section-count">4 items</span></div><div class="rule"></div>
-<div class="item"><div class="name">Cold Summer</div><div class="price">AED 22</div></div>
-<div class="item"><div class="name">Hibiscus</div><div class="price">AED 18</div></div>
-<div class="item"><div class="name">Açaí Smoothie</div><div class="price">AED 35</div></div>
-<div class="item"><div class="name">Iced Americano</div><div class="price">AED 20</div></div>
+  <section id="iced" class="section">
+    <div class="section-headline"><div class="section-copy"><div class="eyebrow">01 · Refreshing</div><h2>Iced Drinks</h2><div class="section-sub">Cold favourites for a lighter, refreshing cup.</div></div><div class="section-index">01</div></div>
+    <div class="menu-card">
+      <div class="item"><div class="name">Cold Summer</div><div class="price"><span>AED 22</span></div></div>
+      <div class="item"><div class="name">Hibiscus</div><div class="price"><span>AED 18</span></div></div>
+      <div class="item"><div class="name">Açaí Smoothie</div><div class="price"><span>AED 35</span></div></div>
+      <div class="item"><div class="name">Iced Americano</div><div class="price"><span>AED 20</span></div></div>
+    </div>
+  </section>
+
+  <section id="coffee" class="section">
+    <div class="section-headline"><div class="section-copy"><div class="eyebrow">02 · Espresso Bar</div><h2>Coffee</h2><div class="section-sub">Classic espresso-based favourites and house staples.</div></div><div class="section-index">02</div></div>
+    <div class="menu-card">
+      <div class="item"><div class="name">Cold Brew</div><div class="price"><span>AED 27</span></div></div>
+      <div class="item"><div class="name">Salted Caramel Latte</div><div class="price"><span>AED 25</span></div></div>
+      <div class="item"><div class="name">Dulce De Leche Cold Brew</div><div class="price"><span>AED 32</span></div></div>
+      <div class="item"><div><div class="name">Spanish Latte</div></div><div class="price"><span>AED 27</span></div></div>
+      <div class="item"><div><div class="name">Dirty Espresso</div></div><div class="price"><span>AED 30</span></div></div>
+      <div class="item"><div class="name">Cappuccino</div><div class="price"><span>AED 32</span></div></div>
+      <div class="item"><div class="name">Flat White</div><div class="price"><span>AED 23</span></div></div>
+      <div class="item"><div class="name">Cortado</div><div class="price"><span>AED 23</span></div></div>
+      <div class="item"><div class="name">Piccolo</div><div class="price"><span>AED 20</span></div></div>
+      <div class="item"><div class="name">Spanish Cortado</div><div class="price"><span>AED 25</span></div></div>
+      <div class="item"><div class="name">Café Latte - Hot</div><div class="price"><span>AED 23</span></div></div>
+      <div class="item"><div class="name">Americano - Hot</div><div class="price"><span>AED 20</span></div></div>
+    </div>
+  </section>
+
+  <section id="v60" class="section v60">
+    <div class="section-headline"><div class="section-copy"><div class="eyebrow">03 · Hand Brewed</div><h2>V60</h2><div class="section-sub">A focused pour-over selection with a cleaner profile.</div></div><div class="section-index">03</div></div>
+    <div class="menu-card">
+      <div class="item"><div><div class="name">V60 Tobacco</div><div class="meta">Rich · Deep · Tobacco-forward</div></div><div class="price"><span>AED 35</span></div></div>
+      <div class="item"><div><div class="name">V60 Ethiopia</div><div class="meta">Bright · Fruity · Floral</div></div><div class="price"><span>AED 25</span></div></div>
+    </div>
+  </section>
+
+  <section id="beans" class="section beans">
+    <div class="section-headline"><div class="section-copy"><div class="eyebrow">04 · Retail</div><h2>Coffee Beans</h2><div class="section-sub">250g bags for brewing KUROHANA at home.</div></div><div class="section-index">04</div></div>
+    <div class="menu-card">
+      <div class="item">
+        <div>
+          <div class="name">Ethiopia Coffee (Sidamo) 250g</div>
+          <div class="meta">Fruity · Chocolate · Dried Apricot</div>
+        </div>
+        <div class="price"><span>AED 40</span></div>
+      </div>
+      <div class="item">
+        <div>
+          <div class="name">Indonesia Coffee (Tobacco) 250g</div>
+          <div class="meta">Tobacco · Red Fruits · Jackfruit · Medium Body</div>
+        </div>
+        <div class="price"><span>AED 75</span></div>
+      </div>
+    </div>
+  </section>
+
+<section class="noon-card" aria-label="Order on Noon">
+  <div class="noon-kicker">DELIVERY</div>
+  <h3>Order on Noon</h3>
+  <p>Prefer delivery? Scan the QR code or tap the button below to order KUROHANA KOFFEE on Noon.</p>
+  <div class="noon-qr-wrap">
+    <img src="noon-order-qr.png" alt="QR code to order KUROHANA KOFFEE on Noon">
+  </div>
+  <a class="noon-order-btn" href="https://food.noon.com/uae-ar/outlet/KRHNCFY8Y9/" target="_blank" rel="noopener">Order on Noon</a>
 </section>
-<section id="coffee"><div class="section-head"><h2>Coffee</h2><span class="section-count">12 items</span></div><div class="rule"></div>
-<div class="item"><div class="name">Cold Brew</div><div class="price">AED 27</div></div>
-<div class="item"><div class="name">Salted Caramel Latte</div><div class="price">AED 25</div></div>
-<div class="item"><div class="name">Dulce De Leche Cold Brew</div><div class="price">AED 32</div></div>
-<div class="item"><div class="name">Spanish Latte</div><div class="price">AED 27</div></div>
-<div class="item"><div class="name">Dirty Espresso</div><div class="price">AED 30</div></div>
-<div class="item"><div class="name">Cappuccino</div><div class="price">AED 32</div></div>
-<div class="item"><div class="name">Flat White</div><div class="price">AED 23</div></div>
-<div class="item"><div class="name">Cortado</div><div class="price">AED 23</div></div>
-<div class="item"><div class="name">Piccolo</div><div class="price">AED 20</div></div>
-<div class="item"><div class="name">Spanish Cortado</div><div class="price">AED 25</div></div>
-<div class="item"><div class="name">Café Latte - Hot</div><div class="price">AED 23</div></div>
-<div class="item"><div class="name">Americano - Hot</div><div class="price">AED 20</div></div>
-</section>
-<section id="v60"><div class="section-head"><h2>V60</h2><span class="section-count">2 items</span></div><div class="rule"></div>
-<div class="item"><div class="name">V60 Tobacco</div><div class="price">AED 35</div></div>
-<div class="item"><div class="name">V60 Ethiopia</div><div class="price">AED 25</div></div>
-</section>
-<section id="beans"><div class="section-head"><h2>Coffee Beans</h2><span class="section-count">2 items</span></div><div class="rule"></div>
-<div class="item"><div><div class="name">Ethiopia Coffee (Sidamo) 250g</div><div class="desc">Fruity · Chocolate · Dried Apricot</div></div><div class="price">AED 40</div></div>
-<div class="item"><div><div class="name">Indonesia Coffee (Tobacco) 250g</div><div class="desc">Tobacco · Red Fruits · Jackfruit · Medium Body</div></div><div class="price">AED 75</div></div>
-</section>
+
 </main>
-<footer>KUROHANA KOFFEE · GOOD COFFEE, GOOD MOOD.</footer>
-</body></html>
+
+<footer class="footer">
+  <div class="rule"></div>
+  <strong>KUROHANA KOFFEE</strong>
+  <small>GOOD COFFEE, GOOD MOOD.</small>
+  <div class="socials">
+    <a href="https://instagram.com/kurohana.koffee" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://wa.me/971501606633" target="_blank" rel="noopener">WhatsApp</a>
+    <button class="share-btn" id="shareMenu" type="button">Share Menu</button>
+  </div>
+</footer>
+
+<button class="backtop" id="backTop" type="button" aria-label="Back to top">↑</button>
+
+<script>
+function updateCompactHeader(){
+  document.body.classList.toggle('compact', window.scrollY > 140);
+}
+
+
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
+const navLinks=[...document.querySelectorAll('.nav a')];
+const sections=[...document.querySelectorAll('main section')];
+const backTop=document.getElementById('backTop');
+const shareBtn=document.getElementById('shareMenu');
+const progress=document.getElementById('progress');
+
+function cleanHash(){
+  if(location.hash){
+    history.replaceState(null,'',location.pathname + location.search);
+  }
+}
+
+function updateActiveSection(){
+  const marker=window.scrollY+140;
+  let current=sections[0]?.id || '';
+  for(const section of sections){
+    if(section.offsetTop<=marker) current=section.id;
+  }
+  navLinks.forEach(a=>{
+    const active=a.dataset.target===current;
+    a.classList.toggle('active',active);
+  });
+}
+
+function updateScrollUI(){
+  const max=document.documentElement.scrollHeight-window.innerHeight;
+  const pct=max>0?(window.scrollY/max)*100:0;
+  if(progress) progress.style.width=pct+'%';
+  if(backTop) backTop.classList.toggle('show',window.scrollY>500);
+  updateActiveSection();
+}
+
+navLinks.forEach(a=>{
+  const targetId=(a.getAttribute('href')||'').replace('#','');
+  a.dataset.target=targetId;
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const target=document.getElementById(targetId);
+    if(!target) return;
+
+    navLinks.forEach(x=>x.classList.remove('active'));
+    a.classList.add('active');
+
+    const navHeight=document.querySelector('.nav-shell')?.offsetHeight || 0;
+    const y=target.getBoundingClientRect().top + window.scrollY - navHeight - 8;
+    window.scrollTo({top:y,behavior:'smooth'});
+
+    // Keep URL clean so refresh never re-opens a section anchor.
+    history.replaceState(null,'',location.pathname + location.search);
+  });
+});
+
+window.addEventListener('scroll',()=>{updateScrollUI();
+updateCompactHeader();updateCompactHeader();},{passive:true});
+window.addEventListener('resize',updateScrollUI);
+
+window.addEventListener('pageshow',()=>{
+  cleanHash();
+  window.scrollTo(0,0);
+  requestAnimationFrame(()=>{
+    window.scrollTo(0,0);
+    updateScrollUI();
+  });
+});
+
+document.addEventListener('DOMContentLoaded',()=>{
+  cleanHash();
+  window.scrollTo(0,0);
+  updateScrollUI();
+});
+
+if(backTop){
+  backTop.addEventListener('click',()=>{
+    history.replaceState(null,'',location.pathname + location.search);
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+}
+
+if(shareBtn){
+  shareBtn.addEventListener('click',async()=>{
+    const cleanUrl=location.origin + location.pathname + location.search;
+    const data={title:'KUROHANA KOFFEE Menu',text:'KUROHANA KOFFEE digital menu',url:cleanUrl};
+    if(navigator.share){
+      try{await navigator.share(data)}catch(e){}
+    }else{
+      try{
+        await navigator.clipboard.writeText(cleanUrl);
+        const old=shareBtn.textContent;
+        shareBtn.textContent='Link Copied';
+        setTimeout(()=>shareBtn.textContent=old,1500);
+      }catch(e){}
+    }
+  });
+}
+</script>
+</body>
+</html>
