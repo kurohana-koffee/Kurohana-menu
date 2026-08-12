@@ -100,6 +100,8 @@ main{
 .section{
   padding-top:24px;
   scroll-margin-top:66px;
+  opacity:1;
+  transform:none;
 }
 .section-title{
   display:flex;
@@ -221,9 +223,128 @@ h2{
     padding-right:max(16px,env(safe-area-inset-right));
   }
 }
+
+.nav a.active{
+  color:#fff;background:var(--ink);border-color:var(--ink);
+}
+.backtop{
+  position:fixed;right:16px;bottom:18px;z-index:40;
+  width:44px;height:44px;border-radius:50%;
+  border:1px solid var(--line);background:rgba(255,250,244,.96);
+  color:var(--ink);display:grid;place-items:center;
+  box-shadow:0 8px 24px rgba(49,28,16,.12);
+  opacity:0;pointer-events:none;transform:translateY(8px);
+  transition:.22s ease;
+}
+.backtop.show{opacity:1;pointer-events:auto;transform:none}
+.socials{
+  display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:14px
+}
+.socials a,.share-btn{
+  text-decoration:none;color:var(--ink);
+  border:1px solid var(--line);background:rgba(255,250,244,.82);
+  border-radius:999px;padding:9px 12px;font-size:12px;font-weight:700
+}
+.share-btn{cursor:pointer}
+
+
+.progress{
+  position:fixed;left:0;top:0;z-index:100;
+  height:2px;width:0;background:var(--gold);
+  box-shadow:0 0 10px rgba(174,130,71,.28);
+}
+.header:after{
+  content:"";
+  display:block;
+  width:42px;height:1px;
+  margin:14px auto 0;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.menu-card{
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+}
+.item{
+  position:relative;
+  transition:background-color .16s ease,transform .16s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.item:active{
+  background:rgba(174,130,71,.055);
+  transform:scale(.997);
+}
+@media (hover:hover){
+  .item:hover{background:rgba(174,130,71,.035)}
+  .menu-card:hover{
+    border-color:rgba(174,130,71,.28);
+    box-shadow:0 12px 34px rgba(67,37,18,.055);
+  }
+}
+
+
+.noon-card{
+  margin:30px 0 6px;
+  padding:22px 18px;
+  text-align:center;
+  background:linear-gradient(180deg,rgba(255,250,244,.92),rgba(248,239,228,.92));
+  border:1px solid rgba(174,130,71,.34);
+  border-radius:24px;
+  box-shadow:0 10px 30px rgba(67,37,18,.05);
+}
+.noon-kicker{
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.18em;
+  color:var(--gold);
+  margin-bottom:7px;
+}
+.noon-card h3{
+  margin:0;
+  font:500 25px/1.1 Georgia,"Times New Roman",serif;
+  color:var(--ink);
+}
+.noon-card p{
+  margin:8px auto 16px;
+  max-width:420px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.5;
+}
+.noon-qr-wrap{
+  width:178px;
+  height:178px;
+  margin:0 auto 14px;
+  padding:10px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:20px;
+}
+.noon-qr-wrap img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+  image-rendering:pixelated;
+}
+.noon-order-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  padding:10px 16px;
+  border-radius:999px;
+  text-decoration:none;
+  color:#fff;
+  background:var(--ink);
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:.02em;
+}
+.noon-order-btn:active{transform:scale(.98)}
+
 </style>
 </head>
 <body>
+<div class="progress" id="progress"></div>
 <header class="header">
   <img class="logo" src="kurohana-logo.png" alt="KUROHANA KOFFEE">
   <div class="brandline">DIGITAL MENU · EST. 2026</div>
@@ -258,8 +379,8 @@ h2{
       <div class="item"><div class="name">Cold Brew</div><div class="price"><span>AED 27</span></div></div>
       <div class="item"><div class="name">Salted Caramel Latte</div><div class="price"><span>AED 25</span></div></div>
       <div class="item"><div class="name">Dulce De Leche Cold Brew</div><div class="price"><span>AED 32</span></div></div>
-      <div class="item"><div class="name">Spanish Latte</div><div class="price"><span>AED 27</span></div></div>
-      <div class="item"><div class="name">Dirty Espresso</div><div class="price"><span>AED 30</span></div></div>
+      <div class="item"><div><div class="name">Spanish Latte</div></div><div class="price"><span>AED 27</span></div></div>
+      <div class="item"><div><div class="name">Dirty Espresso</div></div><div class="price"><span>AED 30</span></div></div>
       <div class="item"><div class="name">Cappuccino</div><div class="price"><span>AED 32</span></div></div>
       <div class="item"><div class="name">Flat White</div><div class="price"><span>AED 23</span></div></div>
       <div class="item"><div class="name">Cortado</div><div class="price"><span>AED 23</span></div></div>
@@ -274,8 +395,8 @@ h2{
     <div class="section-title"><span class="mark"></span><h2>V60</h2></div>
     <div class="section-sub">Hand brewed selection</div>
     <div class="menu-card">
-      <div class="item"><div class="name">V60 Tobacco</div><div class="price"><span>AED 35</span></div></div>
-      <div class="item"><div class="name">V60 Ethiopia</div><div class="price"><span>AED 25</span></div></div>
+      <div class="item"><div><div class="name">V60 Tobacco</div><div class="meta">Rich · Deep · Tobacco-forward</div></div><div class="price"><span>AED 35</span></div></div>
+      <div class="item"><div><div class="name">V60 Ethiopia</div><div class="meta">Bright · Fruity · Floral</div></div><div class="price"><span>AED 25</span></div></div>
     </div>
   </section>
 
@@ -299,12 +420,89 @@ h2{
       </div>
     </div>
   </section>
+
+<section class="noon-card" aria-label="Order on Noon">
+  <div class="noon-kicker">DELIVERY</div>
+  <h3>Order on Noon</h3>
+  <p>Prefer delivery? Scan the QR code or tap the button below to order KUROHANA KOFFEE on Noon.</p>
+  <div class="noon-qr-wrap">
+    <img src="noon-order-qr.png" alt="QR code to order KUROHANA KOFFEE on Noon">
+  </div>
+  <a class="noon-order-btn" href="https://food.noon.com/uae-ar/outlet/KRHNCFY8Y9/" target="_blank" rel="noopener">Order on Noon</a>
+</section>
+
 </main>
 
 <footer class="footer">
   <div class="rule"></div>
   <strong>KUROHANA KOFFEE</strong>
   <small>GOOD COFFEE, GOOD MOOD.</small>
+  <div class="socials">
+    <a href="https://instagram.com/kurohana.koffee" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://wa.me/971501606633" target="_blank" rel="noopener">WhatsApp</a>
+    <button class="share-btn" id="shareMenu" type="button">Share Menu</button>
+  </div>
 </footer>
+
+<button class="backtop" id="backTop" type="button" aria-label="Back to top">↑</button>
+
+<script>
+const navLinks=[...document.querySelectorAll('.nav a')];
+const sections=[...document.querySelectorAll('main section')];
+const backTop=document.getElementById('backTop');
+const shareBtn=document.getElementById('shareMenu');
+const progress=document.getElementById('progress');
+
+function updateActiveSection(){
+  const marker=window.scrollY+140;
+  let current=sections[0]?.id || '';
+  for(const section of sections){
+    if(section.offsetTop<=marker) current=section.id;
+  }
+  navLinks.forEach(a=>{
+    const active=a.getAttribute('href')==='#'+current;
+    a.classList.toggle('active',active);
+  });
+}
+
+function updateScrollUI(){
+  const max=document.documentElement.scrollHeight-window.innerHeight;
+  const pct=max>0?(window.scrollY/max)*100:0;
+  if(progress) progress.style.width=pct+'%';
+  if(backTop) backTop.classList.toggle('show',window.scrollY>500);
+  updateActiveSection();
+}
+
+window.addEventListener('scroll',updateScrollUI,{passive:true});
+window.addEventListener('resize',updateScrollUI);
+updateScrollUI();
+
+if(backTop){
+  backTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+}
+
+navLinks.forEach(a=>{
+  a.addEventListener('click',()=>{
+    navLinks.forEach(x=>x.classList.remove('active'));
+    a.classList.add('active');
+  });
+});
+
+if(shareBtn){
+  shareBtn.addEventListener('click',async()=>{
+    const data={title:'KUROHANA KOFFEE Menu',text:'KUROHANA KOFFEE digital menu',url:window.location.href};
+    if(navigator.share){
+      try{await navigator.share(data)}catch(e){}
+    }else{
+      try{
+        await navigator.clipboard.writeText(window.location.href);
+        const old=shareBtn.textContent;
+        shareBtn.textContent='Link Copied';
+        setTimeout(()=>shareBtn.textContent=old,1500);
+      }catch(e){}
+    }
+  });
+}
+</script>
 </body>
 </html>
