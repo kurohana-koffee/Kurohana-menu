@@ -447,11 +447,21 @@ h2{
 <button class="backtop" id="backTop" type="button" aria-label="Back to top">↑</button>
 
 <script>
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
 const navLinks=[...document.querySelectorAll('.nav a')];
 const sections=[...document.querySelectorAll('main section')];
 const backTop=document.getElementById('backTop');
 const shareBtn=document.getElementById('shareMenu');
 const progress=document.getElementById('progress');
+
+function cleanHash(){
+  if(location.hash){
+    history.replaceState(null,'',location.pathname + location.search);
+  }
+}
 
 function updateActiveSection(){
   const marker=window.scrollY+140;
@@ -460,7 +470,7 @@ function updateActiveSection(){
     if(section.offsetTop<=marker) current=section.id;
   }
   navLinks.forEach(a=>{
-    const active=a.getAttribute('href')==='#'+current;
+    const active=a.dataset.target===current;
     a.classList.toggle('active',active);
   });
 }
@@ -473,29 +483,60 @@ function updateScrollUI(){
   updateActiveSection();
 }
 
-window.addEventListener('scroll',updateScrollUI,{passive:true});
-window.addEventListener('resize',updateScrollUI);
-updateScrollUI();
-
-if(backTop){
-  backTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
-}
-
 navLinks.forEach(a=>{
-  a.addEventListener('click',()=>{
+  const targetId=(a.getAttribute('href')||'').replace('#','');
+  a.dataset.target=targetId;
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const target=document.getElementById(targetId);
+    if(!target) return;
+
     navLinks.forEach(x=>x.classList.remove('active'));
     a.classList.add('active');
+
+    const navHeight=document.querySelector('.nav-shell')?.offsetHeight || 0;
+    const y=target.getBoundingClientRect().top + window.scrollY - navHeight - 8;
+    window.scrollTo({top:y,behavior:'smooth'});
+
+    // Keep URL clean so refresh never re-opens a section anchor.
+    history.replaceState(null,'',location.pathname + location.search);
   });
 });
 
+window.addEventListener('scroll',updateScrollUI,{passive:true});
+window.addEventListener('resize',updateScrollUI);
+
+window.addEventListener('pageshow',()=>{
+  cleanHash();
+  window.scrollTo(0,0);
+  requestAnimationFrame(()=>{
+    window.scrollTo(0,0);
+    updateScrollUI();
+  });
+});
+
+document.addEventListener('DOMContentLoaded',()=>{
+  cleanHash();
+  window.scrollTo(0,0);
+  updateScrollUI();
+});
+
+if(backTop){
+  backTop.addEventListener('click',()=>{
+    history.replaceState(null,'',location.pathname + location.search);
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+}
+
 if(shareBtn){
   shareBtn.addEventListener('click',async()=>{
-    const data={title:'KUROHANA KOFFEE Menu',text:'KUROHANA KOFFEE digital menu',url:window.location.href};
+    const cleanUrl=location.origin + location.pathname + location.search;
+    const data={title:'KUROHANA KOFFEE Menu',text:'KUROHANA KOFFEE digital menu',url:cleanUrl};
     if(navigator.share){
       try{await navigator.share(data)}catch(e){}
     }else{
       try{
-        await navigator.clipboard.writeText(window.location.href);
+        await navigator.clipboard.writeText(cleanUrl);
         const old=shareBtn.textContent;
         shareBtn.textContent='Link Copied';
         setTimeout(()=>shareBtn.textContent=old,1500);
