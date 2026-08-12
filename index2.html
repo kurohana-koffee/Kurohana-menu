@@ -543,8 +543,7 @@ navLinks.forEach(a=>{
   });
 });
 
-window.addEventListener('scroll',()=>{updateScrollUI();
-updateCompactHeader();updateCompactHeader();},{passive:true});
+window.addEventListener('scroll',()=>{updateScrollUI();updateCompactHeader();},{passive:true});
 window.addEventListener('resize',updateScrollUI);
 
 window.addEventListener('pageshow',()=>{
@@ -581,7 +580,6 @@ if(backTop){
     if(backTopTouchHandled) return;
     goTop();
   });
-});
 }
 
 if(shareBtn){
